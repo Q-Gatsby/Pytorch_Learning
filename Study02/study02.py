@@ -9,7 +9,9 @@ class Study02(Dataset):
         self.root_dir = root_dir
         self.label_dir = label_dir
         self.path = os.path.join(self.root_dir, self.label_dir)
-        self.image_path = os.listdir(self.path)
+        path = os.listdir(self.path)
+        path.sort()
+        self.image_path = path
 
     def __getitem__(self, item):
         img_name = self.image_path[item]
@@ -19,9 +21,33 @@ class Study02(Dataset):
         return img, label
 
     def __len__(self):
-        return len(self.img_path)
+        return len(self.image_path)
 
 
-study02 = Study02('/Users/HYQ/Documents/GitHub/Pytorch_Learning/Study02/dataset/train', 'ants')
-print(study02[0])
-print(study02.image_path)
+# study02 = Study02('dataset/train', 'ants')
+# print(study02[0])
+# print(study02.image_path)
+
+root_dir = 'dataset/train'
+label_dir_ants = 'ants'
+label_dir_bees = 'bees'
+study02_ants = Study02(root_dir, label_dir_ants)
+study02_bees = Study02(root_dir, label_dir_bees)
+print(study02_ants)
+print(study02_bees)
+
+train_dataset = study02_ants + study02_bees
+print(len(train_dataset))
+print(train_dataset[125])
+
+img, label = train_dataset[230]
+img.show()
+
+
+
+
+
+
+
+
+
