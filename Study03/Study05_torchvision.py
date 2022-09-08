@@ -19,7 +19,7 @@ trans_norm = transforms.Normalize(mean=[2, 3, 6], std=[4, 1, 2])
 # 计算公式： ``output[channel] = (input[channel] - mean[channel]) / std[channel]``
 img_norm = trans_norm(img_tensor)
 print(img_norm[0, 0, 0])
-writer.add_image('Norm', img_norm,global_step=3)
+writer.add_image('Norm', img_norm, global_step=3)
 
 # Resize
 trans_resize = transforms.Resize(size=(300, 300))
