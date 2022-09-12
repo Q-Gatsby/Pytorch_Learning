@@ -33,6 +33,8 @@ for data in load_data:
     # print(targets)
     # print(output.shape)
     result_loss = loss(output, targets)
+    # 这里之所以能够利用loss函数，也可以输出的out_features不是10个，如果改成11个，20个，50个都可以正常运行，但参与计算的只有前面10个数，
+    # 同时由于out_features变多了，预测正确的概率变低了，因而到CrossEntropyLoss计算的时候，log后的数值会负的更多。
     print(result_loss)
     result_loss.backward()
     # print('OK')
