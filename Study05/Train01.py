@@ -3,7 +3,6 @@ import torchvision
 from torch import nn
 from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
-
 from model import CIFAR10_NN
 
 # 准备数据集
@@ -50,6 +49,7 @@ for i in range(epoch):
     # 训练步骤开始
     total_test_loss = 0
     total_accuracy = 0
+    Model.train()  # 这一行可以注释掉，主要针对模型中存在dropout层等特殊层的时候使用
     for data in train_dataloader:
         # print(data) 这里如果不清楚输出的是何格式的数据，可以先尝试print，确认后再去编写，避免出错
         imgs, targets = data
@@ -68,6 +68,7 @@ for i in range(epoch):
             writer.add_scalar(tag='train_loss', scalar_value=result_loss.item(), global_step=train_step)
 
     # 测试模型步骤开始
+    Model.eval()  # 这一行一般可以注释掉，主要针对模型中存在的dropout层等特殊结构的时候使用，但平时添加上也是可以的
     with torch.no_grad():
         for data in test_dataloader:
             imgs, targets = data
@@ -79,9 +80,9 @@ for i in range(epoch):
             accuracy = (output.argmax(1) == targets).sum()
             total_accuracy += accuracy
     print(f'模型整体在数据集上的Loss为： {total_test_loss}')
-    print(f'模型整体在数据集上的准确率为： {total_accuracy/len(test_dataset)}')
+    print(f'模型整体在数据集上的准确率为： {total_accuracy / len(test_dataset)}')
     writer.add_scalar(tag='test_loss', scalar_value=total_test_loss, global_step=test_step)
-    writer.add_scalar(tag='test_accuracy', scalar_value=total_accuracy/len(test_dataset), global_step=test_step)
+    writer.add_scalar(tag='test_accuracy', scalar_value=total_accuracy / len(test_dataset), global_step=test_step)
     test_step += 1
 
     # 保存模型
