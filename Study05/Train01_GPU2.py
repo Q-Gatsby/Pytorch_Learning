@@ -5,7 +5,7 @@ from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 from model import CIFAR10_NN
 
-
+# 定义当前训练的设备
 # device = torch.device('cpu')
 device = torch.device('cuda:0')
 
@@ -31,7 +31,7 @@ Model = Model.to(device)
 
 # 利用损失函数计算损失
 loss_fn = nn.CrossEntropyLoss()
-loss_fn.to(device )
+loss_fn.to(device)
 
 # 选择优化器
 # 一般会选择把学习速率单独提出来，因为这样好修改，同时设置成为e为底的也更清晰，避免设置错误
