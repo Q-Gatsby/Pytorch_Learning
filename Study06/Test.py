@@ -5,7 +5,7 @@ import torchvision
 
 model = torch.load('Model_29_GPU.pth', map_location=torch.device('cpu'))
 image = Image.open('test3.png')
-image = image.convert('RGB')
+image = image.convert('RGB')    # 加上这一行是由于PNG格式的照片具有4个Channel，需要改成3个channel的RGB格式
 print(image)
 
 transform = torchvision.transforms.Compose([
