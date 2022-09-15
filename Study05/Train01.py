@@ -23,9 +23,13 @@ test_dataloader = DataLoader(dataset=test_dataset, batch_size=64)
 
 # 创建网络模型
 Model = CIFAR10_NN()
+if torch.cuda.is_available():
+    Model = Model.cuda()
 
 # 利用损失函数计算损失
 loss_fn = nn.CrossEntropyLoss()
+if torch.cuda.is_available():
+    loss_fn = loss_fn.cuda()
 
 # 选择优化器
 # 一般会选择把学习速率单独提出来，因为这样好修改，同时设置成为e为底的也更清晰，避免设置错误
@@ -53,6 +57,9 @@ for i in range(epoch):
     for data in train_dataloader:
         # print(data) 这里如果不清楚输出的是何格式的数据，可以先尝试print，确认后再去编写，避免出错
         imgs, targets = data
+        if torch.cuda.is_available():
+            imgs = imgs.cuda()
+            targets = targets.cuda()
         output = Model(imgs)
         result_loss = loss_fn(output, targets)
 
@@ -72,6 +79,9 @@ for i in range(epoch):
     with torch.no_grad():
         for data in test_dataloader:
             imgs, targets = data
+            if torch.cuda.is_available():
+                imgs = imgs.cuda()
+                targets.cuda()
             output = Model(imgs)
             # 计算Loss
             test_loss = loss_fn(output, targets)
