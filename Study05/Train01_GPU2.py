@@ -5,6 +5,10 @@ from torch.utils.data import DataLoader
 from torch.utils.tensorboard import SummaryWriter
 from model import CIFAR10_NN
 
+
+# device = torch.device('cpu')
+device = torch.device('cuda:0')
+
 # 准备数据集
 train_dataset = torchvision.datasets.CIFAR10(
     root='/Users/HYQ/Documents/GitHub/Pytorch_Learning/Study03/torchvision_dataset',
@@ -23,9 +27,11 @@ test_dataloader = DataLoader(dataset=test_dataset, batch_size=64)
 
 # 创建网络模型
 Model = CIFAR10_NN()
+Model = Model.to(device)
 
 # 利用损失函数计算损失
 loss_fn = nn.CrossEntropyLoss()
+loss_fn.to(device )
 
 # 选择优化器
 # 一般会选择把学习速率单独提出来，因为这样好修改，同时设置成为e为底的也更清晰，避免设置错误
@@ -53,6 +59,8 @@ for i in range(epoch):
     for data in train_dataloader:
         # print(data) 这里如果不清楚输出的是何格式的数据，可以先尝试print，确认后再去编写，避免出错
         imgs, targets = data
+        imgs = imgs.to(device)
+        targets = targets.to(device)
         output = Model(imgs)
         result_loss = loss_fn(output, targets)
 
@@ -72,6 +80,8 @@ for i in range(epoch):
     with torch.no_grad():
         for data in test_dataloader:
             imgs, targets = data
+            imgs = imgs.to(device)
+            targets = targets.to(device)
             output = Model(imgs)
             # 计算Loss
             test_loss = loss_fn(output, targets)
