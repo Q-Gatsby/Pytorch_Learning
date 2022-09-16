@@ -20,4 +20,4 @@ model.eval()
 with torch.no_grad():
     print(model)
     output = model(image)
-print(torch.argmax(output, dim=1))
+print(torch.argmax(output, dim=1))    # dim=1 代表是横向去看
