@@ -87,7 +87,7 @@ for i in range(epoch):
             test_loss = loss_fn(output, targets)
             total_test_loss += test_loss.item()  # 这里对test_loss加上item()是因为test_loss是Tensor数据类型，加上item()后会变成数字
             # 计算准确率
-            accuracy = (output.argmax(1) == targets).sum()      #torch.argmax(output, dim=1)
+            accuracy = (output.argmax(1) == targets).sum()      # torch.argmax(output, dim=1)
             total_accuracy += accuracy
     print(f'模型整体在数据集上的Loss为： {total_test_loss}')
     print(f'模型整体在数据集上的准确率为： {total_accuracy / len(test_dataset)}')
